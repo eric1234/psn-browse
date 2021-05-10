@@ -1,0 +1,13 @@
+<nav class="navbar navbar-expand sticky-top navbar-light bg-info bg-gradient shadow mb-5">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">PSN Browse</a>
+  </div>
+  <ul class="navbar-nav me-3">
+    <%= yield_content :navigation %>
+    <li class="nav-item ms-3">
+      <button type="button" class="btn btn-secondary text-nowrap" data-bs-toggle="modal" data-bs-target="#about">
+        <%= icon 'info-circle' %> About
+      </button>
+    </li>
+  </ul>
+</nav>

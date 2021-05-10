@@ -1,0 +1,16 @@
+<% content_for :title, 'Home' %>
+
+<% content_for :frontend do %>
+  <script src="search.js"></script>
+  <link rel="stylesheet" href="search.css">
+<% end %>
+
+<% content_for :navigation do %>
+  <li class="nav-item ms-3">
+    <button type="button" class="btn btn-secondary text-nowrap" data-bs-toggle="offcanvas" data-bs-target="#filter" aria-controls="filter">
+      <%= icon 'filter-circle' %> Filter
+    </button>
+  </li>
+<% end %>
+
+<div id="search"></div>

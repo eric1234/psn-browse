@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="bootstrap.css">
+
+    <title><%= yield_content :title %> - PSN Browse</title>
+  </head>
+  <body>
+    <%= partial 'layouts/navigation' %>
+
+    <main class="container mb-5"><%= yield %></main>
+
+    <%= partial 'layouts/about' %>
+
+    <script src="bootstrap.js"></script>
+    <%= yield_content :frontend %>
+  </body>
+</html>

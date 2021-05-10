@@ -1,0 +1,222 @@
+<% content_for :title, game.name %>
+
+<div class="row">
+  <div class="col-sm-8 col-xxl-9">
+    <h1><%= game.name %></h1>
+
+    <p><%= game.summary %></p>
+
+    <% if game.storyline %>
+      <p><%= game.storyline %></p>
+    <% end %>
+
+    <ul class="nav nav-tabs mb-1">
+      <% first = nil
+      for type in %w[Artworks Screenshots Videos]
+        field = type.downcase
+        next unless game.send(field)&.any? %>
+        <li class="nav-item">
+          <button class="nav-link <%= 'active' unless first %>" type="button"
+            role="tab" aria-controls="<%= field %>" aria-selected="<%= !!first %>"
+            id="<%= field %>-tab" data-bs-toggle="tab" data-bs-target="#<%= field %>">
+            <%= type %>
+          </button>
+        </li>
+        <% first ||= field
+      end %>
+    </ul>
+
+    <div class="tab-content">
+      <% if game.artworks&.any? %>
+        <div class="tab-pane fade <%= 'show active' if first == 'artworks' %>"
+          id="artworks" role="tabpanel" aria-labelledby="artworks-tab">
+          <%= partial 'carousel', locals: { type: 'Artwork', images: game.artworks } %>
+        </div>
+      <% end %>
+
+      <% if game.screenshots&.any? %>
+        <div class="tab-pane fade <%= 'show active' if first == 'screenshots' %>"
+          id="screenshots" role="tabpanel" aria-labelledby="screenshots-tab">
+          <%= partial 'carousel', locals: { type: 'Screenshot', images: game.screenshots } %>
+        </div>
+      <% end %>
+
+      <% if game.videos&.any? %>
+        <div class="tab-pane fade <%= 'show active' if first == 'videos' %>"
+          id="videos" role="tabpanel" aria-labelledby="videos-tab">
+          <div class="accordion" id="videos-list">
+            <% first = true
+            for video in game.videos %>
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="video-header-<%= video.id %>">
+                  <button
+                    class="accordion-button" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#video-<%= video.id %>"
+                    aria-expanded="<%= first %>" aria-controls="video-<%= video.id %>">
+                    <%= video.name %>
+                  </button>
+                </h2>
+                <div id="video-<%= video.id %>" data-bs-parent="#videos"
+                  class="accordion-collapse collapse <%= 'show' if first %>"
+                  aria-labelledby="video-header-<%= video.id %>">
+                  <div class="accordion-body">
+                    <div class="ratio ratio-16x9">
+                      <iframe src="https://www.youtube.com/embed/<%= video.video_id %>?rel=0" title="YouTube video" allowfullscreen></iframe>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% first = false
+            end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <% if game.keywords %>
+      <h5 class="mt-5">Keywords</h5>
+
+      <div class="overflow-auto text-nowrap mb-3">
+        <% for keyword in game.keywords %>
+          <a href="index.html?query=<%= keyword %>" class="badge bg-light text-dark">
+            <%= icon 'tag' %>
+            <%= keyword %>
+          </a>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="col-sm-4 col-xxl-3">
+    <% if game.cover %>
+      <h5 class="mt-3 d-sm-none">Cover</h5>
+
+      <img src="<%= image_url game.cover, :cover_big %>"
+        alt="Cover image" class="mx-auto mb-3 d-block img-fluid" />
+    <% end %>
+
+    <% unless game.aggregated_rating == 0 %>
+      <div class="text-center mb-1">
+        <div data-bs-toggle="tooltip" title="<%= game.aggregated_rating %>">
+          <%= stars game.aggregated_rating %>
+        </div>
+        <%= game.aggregated_rating_count %> Critic Reviews
+      </div>
+    <% end %>
+
+    <% unless game.rating == 0 %>
+      <div class="text-center mb-1">
+        <div data-bs-toggle="tooltip" title="<%= game.rating %>">
+          <%= stars game.rating %>
+        </div>
+        <%= game.rating_count %> User Reviews
+      </div>
+    <% end %>
+
+    <div class="card my-3">
+      <div class="card-header">Data Sheet</div>
+      <div class="card-body">
+        <dl>
+          <% unless game.release_date == '1970-01-01' %>
+            <dt>Released</dt>
+            <dd><%= game.release_date %></dd>
+          <% end %>
+
+          <% if game.genres %>
+            <dt>Genres</dt>
+            <dd>
+              <% for genre in game.genres %>
+                <a href="index.html?filters[genres][0]=<%= genre %>" class="d-block">
+                  <%= genre %>
+                </a>
+              <% end %>
+            </dd>
+          <% end %>
+
+          <% if game.themes %>
+            <dt>Themes</dt>
+            <dd>
+              <% for theme in game.themes %>
+                <a href="index.html?filters[themes][0]=<%= theme %>" class="d-block">
+                  <%= theme %>
+                </a>
+              <% end %>
+            </dd>
+          <% end %>
+
+          <% if game.age_ratings %>
+            <dt>Ratings</dt>
+            <dd>
+              <% for rating in game.age_ratings %>
+                <% next if rating.rating.nil? %>
+                <div>
+                  <%= rating.category %>:
+                  <span data-bs-toggle="tooltip" title="<%= rating.content_descriptions&.join ', ' %>">
+                    <%= rating.rating %>
+                  </span>
+                </div>
+              <% end %>
+            </dd>
+          <% end %>
+
+          <% if game.player_perspectives %>
+            <dt>Player Perspective</dt>
+            <dd>
+              <% for perspective in game.player_perspectives %>
+                <a href="index.html?filters[player_perspectives][0]=<%= perspective %>" class="d-block">
+                  <%= perspective %>
+                </a>
+              <% end %>
+            </dd>
+          <% end %>
+
+          <% if studio = game.studio %>
+            <dt>Studio</dt>
+            <dd>
+              <a href="index.html?query=<%= CGI.escape studio.name %>">
+                <%= studio.name %>
+              </a>
+              <img src="<%= image_url studio.logo, :logo_med %>" alt="Logo" class="d-block my-1 img-fluid" />
+            </dd>
+          <% end %>
+
+          <% if collection = game.collection %>
+            <dt>Collection</dt>
+            <dd>
+              <a href="index.html?query=<%= CGI.escape collection %>">
+                <%= collection %>
+              </a>
+            </dd>
+          <% end %>
+
+          <% if game.franchises&.any? %>
+            <dt>Franchise(s)</dt>
+            <dd>
+              <% for franchise in game.franchises %>
+                <a href="index.html?query=<%= CGI.escape franchise %>" class="d-block">
+                  <%= franchise %>
+                </a>
+              <% end %>
+            </dd>
+          <% end %>
+        </dl>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% unless game.similar_games.empty? %>
+  <h5 class="mt-5">Similar Games</h5>
+
+  <div class="card-group">
+    <% for similiar in game.similar_games %>
+      <div class="card" style="max-width: 264px">
+        <img src="<%= image_url similiar.cover, :cover_big %>" class="card-img-top" alt="Cover image">
+        <div class="card-body">
+          <h5 class="card-title text-truncate"><%= similiar.name %></h5>
+          <a href="<%= similiar.id %>.html" class="btn btn-primary d-block">View</a>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

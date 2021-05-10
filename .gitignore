@@ -1,0 +1,9 @@
+.cache
+.env
+.byebug_history
+yarn-error.log
+build/
+data/
+site/
+tmp/
+node_modules
