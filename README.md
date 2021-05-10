@@ -1,4 +1,6 @@
-A site for browsing PSN games
+A site for browsing PSN games. To visit site go to:
+
+https://eric1234.github.io/psn-browse/
 
 Requirements
 ============
