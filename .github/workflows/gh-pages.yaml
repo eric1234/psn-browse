@@ -1,0 +1,40 @@
+name: "Deploy site to Github Pages"
+
+# For now manual. Once we verify working cron
+on: workflow_dispatch
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout site branch
+        uses: actions/checkout@v2
+
+      - name: Install languages
+        uses: asdf-vm/actions/install@v1
+
+      - name: Install libraries
+        run: |
+          gem install bundler &&
+          npm -g install yarn &&
+          bundle install &&
+          yarn install
+
+      - name: Download game data
+        run: rake download
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+
+      - name: Build site pages
+        run: rake dist
+
+      - name: Deploy to GitHub Pages
+        if: success()
+        uses: crazy-max/ghaction-github-pages@v2
+        with:
+          target_branch: site
+          build_dir: build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

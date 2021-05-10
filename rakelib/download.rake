@@ -200,6 +200,10 @@ file 'data/games.json' => ['data/titles.txt', 'data/access_token.json'] do |t|
       raise "Failed to query #{title}" unless response.status == 200
 
       data = JSON.parse(response.body).first
+      unless data
+        LOGGER.warn "Failed to get #{title} (#{game_id})"
+        next
+      end
 
       # Shouldn't really get duplicates. This is an indication the search not
       # going right. May later try to track down the faulty searches. But for
