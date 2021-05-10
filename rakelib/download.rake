@@ -88,7 +88,6 @@ TITLES_MAP = {
   'Sam and Max: BT&S – Moai Better Blues' => 27836,
   'Sam and Max: BT&S – Night of the Raving Dead' => 27837,
   'Sam and Max: BT&S – What’s New Beelzebub?' => 27839,
-  'Sam and Max Episode 4: Beyoind the Alley of the Dolls' => 106208,
   'Soldner-X: Himmelssturmer' => 21270,
   'Split/Second Velocity' => 2150,
   'Street Fighter 3 Third-Strike Online Edition' => 43666,
@@ -98,6 +97,7 @@ TITLES_MAP = {
 }
 
 # Titles I cannot find on IGDB
+# 'Sam and Max Episode 4: Beyoind the Alley of the Dolls'
 # 'Hot Shots Golf: World Invitational'
 # 'Hot Shots Tennis'
 # 'Penny Arcade Adventures: OTRSPOD Ep 1'

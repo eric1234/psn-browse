@@ -17,7 +17,7 @@ class Rank
 
   Rating = Struct.new :value, :votes do
     def weighted_value
-      return unless value && votes
+      return unless value && votes && votes > 0
 
       value * weight(1, votes-1)
     end
