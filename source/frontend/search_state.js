@@ -15,7 +15,7 @@ export default class {
   constructor(facets, minYear) {
     this.facets = facets
 
-    const current = parse(this.currentQueryString().substr(1))
+    const current = parse(this.currentQueryString())
 
     // We have general defaults but IF the initial querystring has a search
     // query then adjust those defaults to use the min year
@@ -51,7 +51,9 @@ export default class {
 
   // A normalized version of the current querystring
   currentQueryString() {
-    return `?${stringify(parse(window.location.search.substr(1)))}`
+    let qs = `?${stringify(parse(window.location.search.substr(1)))}`
+    if( qs == '?' ) qs = ''
+    return qs
   }
 
   // What the querystring *should* be based on the state
