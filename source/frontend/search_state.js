@@ -12,10 +12,17 @@ const defaults = {
 export default class {
 
   // Mostly self-contained the class just needs to know what facets exist
-  constructor(facets) {
+  constructor(facets, minYear) {
     this.facets = facets
 
-    Object.assign(this, defaults, parse(this.currentQueryString().substr(1)))
+    const current = parse(this.currentQueryString().substr(1))
+
+    // We have general defaults but IF the initial querystring has a search
+    // query then adjust those defaults to use the min year
+    this.defaults = defaults
+    if( current.query ) this.defaults.yearStart = minYear
+
+    Object.assign(this, defaults, current)
 
     this.filters ||= {}
     this.excludes ||= {}
@@ -29,7 +36,7 @@ export default class {
   // engine EXCEPT the default values.
   state() {
     const state = { filters: {}, excludes: {} }
-    for (let [fld, dft] of Object.entries(defaults))
+    for (let [fld, dft] of Object.entries(this.defaults))
       if( this[fld] != dft ) state[fld] = this[fld]
 
     this.facets.forEach(f => {
@@ -64,7 +71,7 @@ export default class {
 
   // Update the state to the given state. If not given use default
   setState(state) {
-    for (let [fld, dft] of Object.entries(defaults))
+    for (let [fld, dft] of Object.entries(this.defaults))
       this[fld] = state[fld] || dft
 
     this.filters = state.filters || {}

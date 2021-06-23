@@ -43,7 +43,12 @@ let engine = configureDB(db, {
   `),
 })
 
-let searchState = new SearchState(Object.keys(facets))
+const releaseYearFor = item => parseInt(item.release_date.slice(0, 4))
+const withoutDummyDate = i => i.release_date != '1970-01-01'
+const years = db.filter(withoutDummyDate).map(releaseYearFor)
+let minYear = Math.min(...years)
+
+let searchState = new SearchState(Object.keys(facets), minYear)
 $: {
   if( searchState.targetQueryString() != searchState.currentQueryString() )
     history.pushState(searchState.state(), '', searchState.relativeUrl())
@@ -52,11 +57,6 @@ window.addEventListener('popstate', e => {
   searchState.setState(event.state)
   searchState = searchState // Force reactivity
 })
-
-const releaseYearFor = item => parseInt(item.release_date.slice(0, 4))
-const withoutDummyDate = i => i.release_date != '1970-01-01'
-const years = db.filter(withoutDummyDate).map(releaseYearFor)
-let minYear = Math.min(...years)
 
 function yearFilter(item) {
   // If release date not known (epoch) include it regardless of date filter.
