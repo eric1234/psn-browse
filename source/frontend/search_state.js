@@ -15,7 +15,7 @@ export default class {
   constructor(facets, minYear) {
     this.facets = facets
 
-    const current = parse(this.currentQueryString())
+    const current = parse(this.currentQueryString().substr(1))
 
     // We have general defaults but IF the initial querystring has a search
     // query then adjust those defaults to use the min year
