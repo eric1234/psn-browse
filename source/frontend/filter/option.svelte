@@ -31,7 +31,7 @@ function toggle(list, val) {
 }
 </script>
 
-<style type="text/scss">
+<style lang="scss">
 .form-check {
   button { display: none; line-height: 1 }
   &:hover button { display: inline-block }

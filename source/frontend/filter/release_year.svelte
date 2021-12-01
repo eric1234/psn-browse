@@ -9,7 +9,7 @@ export let minYear
 import { onMount } from 'svelte'
 
 import slider from 'nouislider'
-import 'nouislider/distribute/nouislider.css';
+import 'nouislider/dist/nouislider.css';
 
 let range
 

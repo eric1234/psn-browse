@@ -3,17 +3,18 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
-    "node-sass": "^5.0.0",
+    "node-sass": "^6.0.1",
     "parcel-bundler": "^1.12.5",
     "parcel-plugin-svelte": "^4.0.8",
-    "svelte": "^3.37.0",
-    "svelte-preprocess-sass": "^1.0.0"
+    "svelte": "^3.37.0"
   },
   "dependencies": {
     "bootstrap": "^5.0.0",
     "debounce": "^1.2.1",
     "itemsjs": "^2.1.1",
-    "nouislider": "^14.7.0",
-    "qs": "^6.10.1"
+    "nouislider": "^15.5.0",
+    "qs": "^6.10.1",
+    "sass": "^1.44.0",
+    "svelte-preprocess": "^4.9.8"
   }
 }

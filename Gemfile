@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'middleman', github: "middleman/middleman" # Ruby 3 compat
+gem 'middleman'
 gem 'nokogiri'
 gem 'faraday'
 gem 'rake'
