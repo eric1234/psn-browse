@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
-    "node-sass": "^6.0.1",
+    "node-sass": "^7.0.0",
     "parcel-bundler": "^1.12.5",
     "parcel-plugin-svelte": "^4.0.8",
     "svelte": "^3.37.0"
