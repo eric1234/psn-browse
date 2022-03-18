@@ -1,4 +1,4 @@
-.cache
+.parcel-cache
 .env
 .byebug_history
 yarn-error.log

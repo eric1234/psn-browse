@@ -5,7 +5,7 @@ ignore 'frontend/*'
 
 activate :external_pipeline,
   name: :parcel,
-  command: "node_modules/.bin/parcel #{build? ? 'build' : 'watch'} -d tmp/ source/frontend/search.js source/frontend/bootstrap.js",
+  command: "node_modules/.bin/parcel #{build? ? 'build' : 'watch'} --dist-dir tmp/ source/frontend/search.js source/frontend/bootstrap.js",
   source: "tmp/"
 
 games = @app.data.games.collect do |game|

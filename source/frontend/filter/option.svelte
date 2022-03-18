@@ -31,11 +31,9 @@ function toggle(list, val) {
 }
 </script>
 
-<style lang="scss">
-.form-check {
-  button { display: none; line-height: 1 }
-  &:hover button { display: inline-block }
+<style>
+.form-check button { display: none; line-height: 1 }
+.form-check:hover button { display: inline-block }
 
-  &.excluded label { text-decoration: line-through }
-}
+.form-check.excluded label { text-decoration: line-through }
 </style>
